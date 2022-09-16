@@ -31,7 +31,7 @@ css: unocss
 <style>
 h1 {
   background-color: #70ADFF;
-  background-image: linear-gradient(45deg, #70ADFF 25%, #BD34FE 50%);
+  background-image: linear-gradient(45deg, #70ADFF 45%, #BD34FE 55%);
   background-size: 100%;
   -webkit-background-clip: text;
   -moz-background-clip: text;
