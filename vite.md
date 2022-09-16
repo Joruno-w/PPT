@@ -28,8 +28,9 @@ css: unocss
 ## create by shengliang
 
 <style>
-  h1{
-    color: red;
+  h1 {
+    color: transparent;
+    display: inline-block;
     background: linear-gradient(to right, #70ADFF, #BD34FE);
     background-clip: text;
     -webkit-background-clip: text;
@@ -89,11 +90,12 @@ h1 {
 
 ---
 
-# Project
+# Start Project
 
-首先，我们先创建一个基于 Vite 的应用，并启动：
+<div class="white">首先，我们先创建一个基于 Vite 的应用，并启动：</div>
+
 <br>
-```bash{all|1|2|3|all}
+```bash {all|1|2|3|all}
 pnpm create vite
 pnpm i
 pnpm dev
@@ -103,7 +105,7 @@ pnpm dev
 
 然后浏览器请求 https://localhost:3000/ 得到的内容即是我们应用项目中的 index.html 内容。
 <br>
-```html{all|1,4|2|3|all}
+```html {all|1,4|2|3|all}
 <body> 
   <div id="app"></div> 
   <script type="module" src="/src/main.js"></script>
@@ -135,11 +137,9 @@ layout: image-right
 image: https://source.unsplash.com/collection/94734566/1920x1080
 ---
 
-# Code
+# Change Path
 
-经过 Vite Server 处理 http://localhost:3000/src/main.js 请求后
-
-返回内容和项目中的 ./src/main.js 略有差别：
+<div class="white">经过 Vite Server 处理 /src/main.js 请求后 返回内容和项目中的 ./src/main.js 略有差别：</div>
 
 ```ts {all|1|2|3|all}
 import { createApp } from 'vue' 
@@ -147,15 +147,13 @@ import App from './App.vue'
 import './index.css' 
 ```
 
-<br>
-
 ```ts {all|1|2|3|all}
 import { createApp } from '/@modules/vue.js' 
 import App from '/src/App.vue' 
 import '/src/index.css?import' 
 ```
 
-![resolvePath](path.jpg)
+<img src='path.jpg' class="h-60"/>
 
 <style>
 h1 {
@@ -173,18 +171,35 @@ h1 {
 
 # Principle
 
-这里我们拆成两部分来看。
+<div v-click>
+  这里我们拆成两部分来看。
+</div>
 
-其中import { createApp } from 'vue'改为import { createApp } from '/@modules/vue.js'，原因很明显：<strong>import 对应的路径只支持 "/""./"或者 "../" 开头的内容，直接使用模块名 import，会立即报错。</strong>
+<div v-click>
+  其中import { createApp } from 'vue'改为import { createApp } from '/@modules/vue.js'，原因很明显：<strong>import 对应的路径只支持 "/""./"或者 "../" 开头的内容，直接使用模块名 import，会立即报错。</strong>
+</div>
 
-所以在 Vite Server 处理请求时，通过 serverPluginModuleRewrite 这个中间件来给 import from 'A' 的 A 添加 /@module/ 前缀为 from '/@modules/A'
+<br>
 
-整个过程和调用链路较长，我对 Vite 处理 import 方法做一个简单总结：
-<ul class="pl-5">
-  <li>在 koa 中间件里获取请求 path 对应的 body 内容；</li>
-  <li>通过 es-module-lexer 解析资源 AST，并拿到 import 的内容；</li>
-  <li>如果判断 import 的资源是绝对路径，即可认为该资源为 npm 模块，并返回处理后的资源路径。比如上述代码中，vue → /@modules/vue。</li>
-</ul>
+<div v-click>
+  所以在 Vite Server 处理请求时，通过 serverPluginModuleRewrite 这个中间件来给 import from 'A' 的 A 添加 /@module/ 前缀为 from '/@modules/A'
+</div>
+
+<br>
+
+<div v-click>
+  整个过程和调用链路较长，我对 Vite 处理 import 方法做一个简单总结：
+</div>
+
+
+<div v-click>
+  <ul class="pl-5 pt-2">
+    <li>在 koa 中间件里获取请求 path 对应的 body 内容；</li>
+    <li>通过 es-module-lexer 解析资源 AST，并拿到 import 的内容；</li>
+    <li>如果判断 import 的资源是绝对路径，即可认为该资源为 npm 模块，并返回处理后的资源路径。比如上述代码中，vue → /@modules/vue。</li>
+  </ul>
+</div>
+
 
 <style>
 strong{
@@ -208,15 +223,21 @@ class: px-20
 
 # Principle
 
-<div class="white">对于形如：import App from './App.vue'和import './index.css'的处理，与第一种情况类似：</div>
+<div v-click class="white">对于形如：import App from './App.vue'和import './index.css'的处理，与第一种情况类似：</div>
 
-<ul class="pl-5">
-  <li>在 koa 中间件里获取请求 path 对应的 body 内容；</li>
-  <li>通过 es-module-lexer 解析资源 AST，并拿到 import 的内容；</li>
-  <li>如果判断 import 的资源是相对路径，即可认为该资源为项目应用中资源，并返回处理后的资源路径。比如上述代码中，./App.vue → /src/App.vue。</li>
-</ul>
+<div v-click class="pt-2 mb-3">
+  <ul class="pl-5">
+    <li>在 koa 中间件里获取请求 path 对应的 body 内容；</li>
+    <li>通过 es-module-lexer 解析资源 AST，并拿到 import 的内容；</li>
+    <li>如果判断 import 的资源是相对路径，即可认为该资源为项目应用中资源，并返回处理后的资源路径。比如上述代码中，./App.vue → /src/App.vue。</li>
+  </ul>
+</div>
 
-接下来浏览器根据 main.js 的内容，分别请求：
+<div v-click class="mb-3">
+  接下来浏览器根据 main.js 的内容，分别请求：
+</div>
+
+<div v-click>
 
 ```ts {1|2|3}
 /@modules/vue.js 
@@ -224,13 +245,22 @@ class: px-20
 /src/index.css?import 
 ```
 
-对于 /@module/ 类请求较为容易，我们只需要完成下面三步：
+</div>
 
-<ul class="pl-5">
-  <li>在 koa 中间件里获取请求 path 对应的 body 内容；</li>
-  <li>判断路径是否以 /@module/ 开头，如果是，取出包名（这里为 vue.js）；</li>
-  <li>去 node_modules 文件中找到对应的 npm 库，并返回内容。</li>
-</ul>
+
+
+<div v-click class="mt-3">
+  对于 /@module/ 类请求较为容易，我们只需要完成下面三步：
+</div>
+
+
+<div v-click>
+  <ul class="pl-5 pt-2">
+    <li>在 koa 中间件里获取请求 path 对应的 body 内容；</li>
+    <li>判断路径是否以 /@module/ 开头，如果是，取出包名（这里为 vue.js）；</li>
+    <li>去 node_modules 文件中找到对应的 npm 库，并返回内容。</li>
+  </ul>
+</div>
 
 <style>
 h1 {
@@ -243,8 +273,6 @@ h1 {
   -moz-text-fill-color: transparent;
 }
 </style>
-
-
 
 
 ---
@@ -253,10 +281,10 @@ preload: false
 
 # Principle
 
-<div class="white">接着，就是对 /src/App.vue 类请求进行处理，这就涉及 Vite 服务器的编译能力了。
+<div v-click class="white mb-2">接着，就是对 /src/App.vue 类请求进行处理，这就涉及 Vite 服务器的编译能力了。
 我们先看结果，对比项目中的 App.vue，浏览器请求得到的结果显然出现了大变样：</div>
 
-![parse](parse.jpg)
+<img v-click src='parse.jpg'>
 
 <style>
 h1 {
@@ -270,19 +298,17 @@ h1 {
 }
 </style>
 
-
 ---
 
-# Principle
+# Parse SFC
 
-<div class="white">实际上，App.vue 这样的单文件组件对应 script、style 和 template，在经过 Vite Server 处理时，服务端对 script、style 和 template 三部分分别处理，对应中间件为 serverPluginVue。即对 .vue 文件请求进行处理，通过 parseSFC 方法解析单文件组件，而 parseSFC 具体所做的事情，是调用 @vue/compiler-sfc 进行单文件组件解析。精简一下逻辑就是：</div>
-
+<div v-click class="white">实际上，App.vue 这样的单文件组件对应 script、style 和 template，在经过 Vite Server 处理时，服务端对 script、style 和 template 三部分分别处理，对应中间件为 serverPluginVue。即对 .vue 文件请求进行处理，通过 parseSFC 方法解析单文件组件，而 parseSFC 具体所做的事情，是调用 @vue/compiler-sfc 进行单文件组件解析。精简一下逻辑就是：</div>
 
 <br>
 
-```ts {1,12|2,11|3-10|all}
+```ts {all|1,12|2,11|3-10|all}
 if (!query.type) { 
-  ctx.body = ` 
+  ctx.body = `
     const __script = ${descriptor.script.content.replace('export default ', '')} 
     // 单文件组件中，对于 style 部分的编译，编译为对应 style 样式的 import 请求 
     ${descriptor.styles.length ? `import "${url}?type=style"` : ''} 
@@ -307,10 +333,9 @@ h1 {
 }
 </style>
 
-
 ---
 
-# Principle
+# Parse Template
 
 <div class="white">总而言之，每一个 .vue 单文件组件都被拆分成多个请求。比如对应上面场景，浏览器接收到 App.vue 对应的实际内容后，发出 HelloWorld.vue 以及 App.vue?type=template 的请求（通过 type 这个 query 来表示是 template 还是 style）。koa server 进行分别处理并返回，对于 template 的请求，将使用 @vue/compiler-dom 进行编译 template 并返回内容。</div>
 
@@ -343,7 +368,7 @@ h1 {
 preload: false
 ---
 
-# Principle
+# Parse Style
 
 <div class="white">对于 http://localhost:3000/src/index.css?import 请求稍微特殊，在浏览器中执行 updateStyle 方法：</div>
 
@@ -405,3 +430,9 @@ h1 {
   -moz-text-fill-color: transparent;
 }
 </style>
+
+---
+layout: center
+---
+
+# Thanks
