@@ -466,9 +466,3 @@ layout: center
 ---
 
 # Thanks for listening
-
-<style>
-  h1{
-    color: #fff;
-  }
-</style>

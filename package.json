@@ -4,11 +4,13 @@
   "scripts": {
     "build": "slidev build vite.md",
     "dev": "slidev --open vite.md",
-    "export": "slidev export"
+    "export": "slidev export",
+    "test": "vitest"
   },
   "dependencies": {
     "@slidev/cli": "^0.36.5",
     "@slidev/theme-default": "*",
-    "@slidev/theme-seriph": "*"
+    "@slidev/theme-seriph": "*",
+    "vitest": "^0.23.2"
   }
 }
