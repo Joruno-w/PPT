@@ -28,20 +28,22 @@ css: unocss
 ## create by shengliang
 
 <style>
-  h1 {
-    color: transparent;
-    display: inline-block;
-    background: linear-gradient(to right, #70ADFF, #BD34FE);
-    background-clip: text;
-    -webkit-background-clip: text;
-  }
+h1 {
+  background-color: #70ADFF;
+  background-image: linear-gradient(45deg, #70ADFF 25%, #BD34FE 50%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
 </style>
 ---
 
 # What is Vite ?
 
 <div v-click>
-下一代的前端工具链，为开发提供极速响应
+  下一代的前端工具链，为开发提供极速响应
 </div>
 
 <br>
@@ -153,7 +155,7 @@ import App from '/src/App.vue'
 import '/src/index.css?import' 
 ```
 
-<img src='path.jpg' class="h-60"/>
+<img src='/public/path.jpg' class="h-60"/>
 
 <style>
 h1 {
@@ -284,7 +286,7 @@ preload: false
 <div v-click class="white mb-2">接着，就是对 /src/App.vue 类请求进行处理，这就涉及 Vite 服务器的编译能力了。
 我们先看结果，对比项目中的 App.vue，浏览器请求得到的结果显然出现了大变样：</div>
 
-<img v-click src='parse.jpg'>
+<img v-click src='/public/parse.jpg'>
 
 <style>
 h1 {

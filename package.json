@@ -2,7 +2,7 @@
   "name": "vite-ppt",
   "private": true,
   "scripts": {
-    "build": "slidev build",
+    "build": "slidev build vite.md",
     "dev": "slidev --open vite.md",
     "export": "slidev export"
   },
