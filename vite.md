@@ -23,9 +23,10 @@ drawings:
 css: unocss
 ---
 
-# Vite 实现原理
+# Vite
+## 从入口看其实现思路
 
-## create by shengliang
+<div class="absolute left-410px bottom-5">create by shengliang</div>
 
 <style>
 h1 {
@@ -241,7 +242,7 @@ class: px-20
 
 <div v-click>
 
-```ts {1|2|3}
+```ts
 /@modules/vue.js 
 /src/App.vue 
 /src/index.css?import 
@@ -302,9 +303,9 @@ h1 {
 
 ---
 
-# Parse SFC
+# Parse JS
 
-<div v-click class="white">实际上，App.vue 这样的单文件组件对应 script、style 和 template，在经过 Vite Server 处理时，服务端对 script、style 和 template 三部分分别处理，对应中间件为 serverPluginVue。即对 .vue 文件请求进行处理，通过 parseSFC 方法解析单文件组件，而 parseSFC 具体所做的事情，是调用 @vue/compiler-sfc 进行单文件组件解析。精简一下逻辑就是：</div>
+<div class="white">实际上，App.vue 这样的单文件组件对应 script、style 和 template，在经过 Vite Server 处理时，服务端对 script、style 和 template 三部分分别处理，对应中间件为 serverPluginVue。即对 .vue 文件请求进行处理，通过 parseSFC 方法解析单文件组件，而 parseSFC 具体所做的事情，是调用 @vue/compiler-sfc 进行单文件组件解析。精简一下逻辑就是：</div>
 
 <br>
 
@@ -384,7 +385,8 @@ const supportsConstructedSheet = (() => {
     return true 
   } catch (e) {} 
   return false 
-})() 
+})()
+
 export function updateStyle(id: string, content: string) { 
   let style = sheetsMap.get(id) 
   if (supportsConstructedSheet && !content.includes('@import')) { 
@@ -434,7 +436,39 @@ h1 {
 </style>
 
 ---
+
+# Summary
+
+<br>
+
+- Vite 利用浏览器原生支持 ESM 这一特性，省略了对模块的打包，也就不需要生成 bundle，因此初次启动更快，HMR 特性友好。
+- Vite 开发模式下，通过启动 koa 服务器，在服务端完成模块的改写（比如单文件的解析编译等）和请求处理，实现真正的按需编译。
+- Vite Server 所有逻辑基本都依赖中间件实现。这些中间件，拦截请求之后，完成了如下内容：
+  - 处理 ESM 语法，比如将业务代码中的 import 第三方依赖路径转为浏览器可识别的依赖路径；
+  - 对 .ts、.vue 等文件进行即时编译；
+  - 对 Sass/Less 的需要预编译的模块进行编译；
+
+<style>
+h1 {
+  background-color: #70ADFF;
+  background-image: linear-gradient(45deg, #70ADFF 10%, #BD34FE 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
+
+---
 layout: center
 ---
 
-# Thanks
+# Thanks for listening
+
+<style>
+  h1{
+    color: #fff;
+  }
+</style>
